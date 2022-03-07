@@ -42,14 +42,14 @@ map.on('mousemove',function (e) {
 
 
 var icons = {
-    "saglikmerkezicon": L.icon({iconUrl: '/static/icons/hospital.png',iconSize: [40]}),
-    "metroicon"       : L.icon({iconUrl: '/static/icons/metroicon.png',iconSize: [30]}),
+    "saglikmerkezicon": L.icon({iconUrl: '/static/icons/hospital.webp',iconSize: [40]}),
+    "metroicon"       : L.icon({iconUrl: '/static/icons/metroicon.png',iconSize: [50]}),
     "tarihiyerlericon": L.icon({iconUrl: '/static/icons/tarihiyerler.png',iconSize: [40]}),
-    "taksiicon"       : L.icon({iconUrl: '/static/icons/taksiicon.png',iconSize: [40]}),
+    "taksiicon"       : L.icon({iconUrl: '/static/icons/taksiicon.png',iconSize: [50]}),
     "kartdolumicon"   : L.icon({iconUrl: '/static/icons/kartdolum.png',iconSize: [40]}),
-    "eczaneicon"      : L.icon({iconUrl: '/static/icons/eczaneicon.svg',iconSize: [40]}),
-    "camiicon"        : L.icon({iconUrl: '/static/icons/camiicon.jpg',iconSize: [40]}),
-    "otobusicon"      : L.icon({iconUrl: '/static/icons/otobus.jpg',iconSize: [40]}),
+    "eczaneicon"      : L.icon({iconUrl: '/static/icons/eczaneicon.png',iconSize: [40]}),
+    "camiicon"        : L.icon({iconUrl: '/static/icons/camiicon.png',iconSize: [40]}),
+    "otobusicon"      : L.icon({iconUrl: '/static/icons/otobus.png',iconSize: [40]}),
 };
 
 var saglikMerkezleri = L.markerClusterGroup();
@@ -125,19 +125,27 @@ L.geoJSON(otobusdurak, {
 
 
 
+var ilceSinirlariLayer = L.layerGroup();
+for (var i=0; i<ilcesinir.features.length; i++){
+    ilcesinir.features[i].geometry.coordinates=ilcesinir.features[i].geometry.coordinates.map(row=>row.reverse())
+    var temp = L.polygon(ilcesinir.features[i].geometry.coordinates,{color:"black",  fillOpacity:0.01, weight:5}).bindPopup(ilcesinir.features[i].properties.ilceadi);
+    ilceSinirlariLayer.addLayer(temp);
+}
 
 
-var ilceSinirlariLayer =   L.geoJSON(ilcesinir, {color:"black",  fillOpacity:0.01, weight:5,
-                                                onEachFeature: function (features, layer) {
-                                                    layer.bindPopup(features.properties.ilceadi);
-                                                } });
+
+var mahalleSinirlariLayer = L.layerGroup();
+for (var i=0; i<mahallesinir.features.length; i++){
+    mahallesinir.features[i].geometry.coordinates=mahallesinir.features[i].geometry.coordinates.map(row=>row.reverse())
+    var temp = L.polygon(mahallesinir.features[i].geometry.coordinates,{color:"red",  fillOpacity:0.001}).bindPopup(mahallesinir.features[i].properties.mahalleadi);
+    mahalleSinirlariLayer.addLayer(temp);
+}
 
 
-
-var mahalleSinirlariLayer =  L.geoJSON(mahallesinir, {color:"red", fillOpacity:0.01, 
-                                                onEachFeature: function (features, layer) {
-                                                    layer.bindPopup(features.properties.mahalleadi);
-                                                } });
+// var mahalleSinirlariLayer =  L.geoJSON(mahallesinir, {color:"red", fillOpacity:0.01, 
+//                                                 onEachFeature: function (features, layer) {
+//                                                     layer.bindPopup(features.properties.mahalleadi);
+//                                                 } });
 
 
 var akarsuLayer =  L.geoJSON(akarsular, {color:"blue", fillOpacity:0.01, 
