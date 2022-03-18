@@ -1,0 +1,40 @@
+{
+  "name": "shpjs",
+  "version": "3.3.2",
+  "description": "A binary shapefile loader, for javascript. Not many caveats",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/calvinmetcalf/shapefile-js.git"
+  },
+  "scripts": {
+    "test": "mocha ./test/test.js",
+    "hint": "jshint ./lib/*.js",
+    "build-test": "browserify ./test/test.js > ./test/bundle.js",
+    "build": "browserify . -s shp > ./dist/shp.js",
+    "min": "browserify . -s shp | uglifyjs -mc > ./dist/shp.min.js"
+  },
+  "author": "Calvin Metcalf",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "chai": "^3.3.0",
+    "chai-as-promised": "^5.1.0",
+    "jszip": "^2.5.0",
+    "mocha": "^2.3.3",
+    "testling": "^1.6.1",
+    "uglify-js": "^2.4.24",
+    "uglifyjs": "^2.4.10"
+  },
+  "dependencies": {
+    "jszip": "^2.4.0",
+    "lie": "^3.0.1",
+    "lru-cache": "^2.7.0",
+    "parsedbf": "~0.1.2",
+    "proj4": "^2.1.4"
+  },
+  "browser": {
+    "./lib/binaryajax.js": "./lib/binaryajax-browser.js"
+  }
+}
